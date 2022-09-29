@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+
+    <link rel="stylesheet" href="./assets/css/reboot.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rajdhani&family=Roboto+Condensed:wght@700&display=swap');</style>
+
+</head>
+<body>
+    <header>
+        <h1>Sudoku Solver</h1>
+        <p class="presentation">Entrez les chiffres que vous connaissez et cliquez sur "résoudre le sudoku", pour effacer la grille, cliquez sur "réinitialiser la grille".</p>
+    </header>
+
+    <main>
+        <div class="grille">
+            <div class="grille__sudoku">
+            </div>
+            <div class="grille__alert">
+            </div>
+            <div class="grille__button">
+                <input class="button__resolve" type="button" value="Résoudre le sudoku">
+                <input class="button__reset" type="button" value="Réinitialiser la grille">
+            </div>
+        </div>
+    </main>
+
+    <script src="./assets/js/component/createSudoku.js"></script>
+    <script src="./assets/js/component/resolveSudoku.js"></script>
+    <script src="./assets/js/component/sudoku.js"></script>
+    <script src="./asset/js/app.js"></script>
+</body>
+</html>

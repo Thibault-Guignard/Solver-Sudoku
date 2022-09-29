@@ -1,0 +1,88 @@
+h1 {
+  margin: 1em 0;
+  text-align: center;
+  font-size: 1.75em;
+  font-family: 'Bungee Spice', cursive;
+}
+
+.presentation {
+  text-align: center;
+}
+
+.grille {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grille__sudoku input {
+  border: none;
+  text-align: center;
+  width: 2.1em;
+  height: 2.1em;
+  padding: 0.5em;
+}
+
+.grille__sudoku table {
+  border-collapse: collapse;
+  border: 3px solid #000;
+}
+
+.grille__sudoku table td {
+  border: 1px solid #000;
+}
+
+.grille__sudoku table td.borderRightCol {
+  border-right: 3px solid #000;
+}
+
+.grille__sudoku table td.borderBottomCol {
+  border-bottom: 3px solid #000;
+}
+
+.grille__sudoku table td.blue input {
+  background: #c0dfef;
+}
+
+.grille {
+  text-align: center;
+}
+
+.grille__sudoku {
+  display: inline-block;
+  margin-bottom: 1em;
+}
+
+.grille__alert {
+  background-color: #f8d7da;
+  display: inline-block;
+  margin-bottom: 1em;
+  border-radius: 10%;
+  line-height: 0.5em;
+}
+
+.grille__alert p {
+  padding: 0.75em;
+  margin: 0;
+  font-weight: bold;
+  color: #a35954;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.grille__button input {
+  width: 10em;
+  border-radius: 8px;
+  border: 0;
+  color: #fff;
+  padding: 0.6em;
+  cursor: pointer;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.button__resolve {
+  background-color: green;
+}
+
+.button__reset {
+  background-color: red;
+}
