@@ -1,3 +1,8 @@
+body {
+  background-color: #2a303d;
+  color: #fff;
+}
+
 h1 {
   margin: 1em 0;
   text-align: center;
@@ -54,10 +59,9 @@ h1 {
 }
 
 .grille__alert {
-  background-color: #f8d7da;
   display: inline-block;
   margin-bottom: 1em;
-  border-radius: 10%;
+  border-radius: 10px;
   line-height: 0.5em;
 }
 
@@ -65,8 +69,17 @@ h1 {
   padding: 0.75em;
   margin: 0;
   font-weight: bold;
-  color: #a35954;
   font-family: 'Rajdhani', sans-serif;
+}
+
+.grille__alert--success {
+  background-color: #d1e7dd;
+  color: #769270;
+}
+
+.grille__alert--warning {
+  background-color: #f8d7da;
+  color: #a35954;
 }
 
 .grille__button input {
@@ -81,8 +94,22 @@ h1 {
 
 .button__resolve {
   background-color: green;
+  margin-bottom: 0.5em;
 }
 
 .button__reset {
   background-color: red;
+}
+
+@media screen and (max-width: 600px) {
+  .grille__button input {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .button__resolve {
+    margin-right: 0.5em;
+  }
 }

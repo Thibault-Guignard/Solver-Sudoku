@@ -32,7 +32,6 @@ const resolveSudoku = {
     } if (casesVides > 0) { 
       resolveSudoku.solveSudoku(grille, 0);
     }          
-
   },
 
   /**

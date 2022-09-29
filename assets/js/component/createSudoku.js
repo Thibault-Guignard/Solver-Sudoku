@@ -5,15 +5,23 @@ const createSudoku = {
     createSudoku.createTable();
   },
 
+  /**
+   * clique sur le bouton entrer simule le blur sur le même input
+   * @param {event} event 
+   */
   handleValidadteNumberClickEnter(event) {
     event.preventDefault();
     if ( event.key === 'Enter' ) { 
       document.activeElement.blur(); } 
   },
 
+  /**
+   * Après saisie du nombre, le contrôle si tout est ok , on le valide sinon on l'efface et on affiche message d'erreur(s)
+   * @param {event} event 
+   */
   handleValidateNumber(event) {  
     //on efface les eventuels message d'erreur
-    createSudoku.eraseAlertMessageInputNumber();
+    alertMessage.eraseAlertMessage();
     //on recupere la celle choisie
     const cellChoosen = event.currentTarget;
     //le numero saisie
@@ -21,14 +29,22 @@ const createSudoku = {
     //la position du numéro saisie
     const positionInputNumber = cellChoosen.closest('td').getAttribute('position');
     //on vérifie si le chiffre n'est pas déjà présent dans la ligne, la colonne ou la box
-    const error = createSudoku.numberIsOk(sudoku.grilleSudoku, inputNumber, positionInputNumber);
+    const listErrors = createSudoku.numberIsOk(sudoku.grilleSudoku, inputNumber, positionInputNumber);
     
-    if (error.length > 0) {
-      createSudoku.createAlertInputNumber(error);
+    console.log(listErrors);
+    if (listErrors.length > 0) {
+      alertMessage.createAlertMessage(listErrors, 'warning');
       cellChoosen.value = '';
     }
   },
 
+  /**
+   * Teste la saisie dans une case
+   * @param {Array} grille 
+   * @param {Number} number 
+   * @param {Number} position 
+   * @returns {Array} Error[] 
+   */
   numberIsOk(grille, number, position) {
     let error = [];
     const ligne = Math.floor(position/9);
@@ -60,23 +76,9 @@ const createSudoku = {
     return error;
   },
 
-  createAlertInputNumber(listError) {
-    const emplacementAlert = document.querySelector('.grille__alert');
-    listError.forEach(oneError => {
-      const pAlert = document.createElement('p');
-      pAlert.textContent = oneError;
-      emplacementAlert.append(pAlert);
-    });
-    
-  },
-
-  eraseAlertMessageInputNumber() {
-    const emplacementAlert = document.querySelector('.grille__alert');
-    emplacementAlert.querySelectorAll('p').forEach(oldMessage => {
-      oldMessage.remove();
-    });
-  },
-
+  /**
+   * Gère l'affichage de la grille de sudoku
+   */
   createTable() {
     const emplacementGrille = document.querySelector('.grille__sudoku');
 
@@ -99,6 +101,10 @@ const createSudoku = {
     }
   },
 
+  /**
+   * Gère la création d'une ligne
+   * @returns 
+   */
   getLine() {
     return ['<tr>', new Array(10).join('<td><input type="text" size="1" maxlength="1"></td>'),'</tr>'].join('');
   },
