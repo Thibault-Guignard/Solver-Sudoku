@@ -87,24 +87,27 @@ h1 {
   border-radius: 8px;
   border: 0;
   color: #fff;
-  padding: 0.6em;
+  padding: 0.6em 1em;
   cursor: pointer;
   font-family: 'Roboto Condensed', sans-serif;
 }
 
 .button__resolve {
   background-color: green;
-  margin-bottom: 0.5em;
 }
 
 .button__reset {
   background-color: red;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 599px) {
   .grille__button input {
     display: flex;
     flex-direction: column;
+  }
+
+  .button__resolve {
+    margin-bottom: 0.5em;
   }
 }
 
