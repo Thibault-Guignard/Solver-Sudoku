@@ -4,33 +4,34 @@ const resolveSudoku = {
    * On vérifie s'il existe des cases avec une seule possibilité et on les remplit avec cette possibilité, permeet également de résoudre les grilles les plus faciles
    * @param {Array} grille de sudoku à résoudre
   */
-  simplifySudoku(grille) {
-    let casesVides = 81;
+  simpleResolutionSudoku(grille) {
+    let emptyCases = 81;
     let nombreChangement = 0;
 
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
+    for (let ligne = 0; ligne < 9; ligne++) {
+      for (let colonne = 0; colonne < 9; colonne++) {
 
-        if ( grille[i][j] !== 0 ) {
-          casesVides --;
+        if ( grille[ligne][colonne] !== 0 ) {
+          emptyCases --;
         } else {
-          const chiffrePossible = resolveSudoku.possible(grille, i, j);
-          if (chiffrePossible.length === 1 ) {
-            grille[i][j] = chiffrePossible[0];
-            casesVides --;
+          const chiffresPossible = resolveSudoku.possible(grille, ligne, colonne);
+          if (chiffresPossible.length === 1 ) {
+            grille[ligne][colonne] = chiffresPossible[0];
+            emptyCases --;
             nombreChangement ++;
           } else {
-            grille[i][j] = 0;
+            grille[ligne][colonne] = 0;
           }
         }
       }
     }
 
-    if (casesVides > 0 && nombreChangement > 0) {
-      //si toujours des cases et si on a fait des changements
-      resolveSudoku.simplifySudoku(grille);
-    } if (casesVides > 0) { 
-      resolveSudoku.solveSudoku(grille, 0);
+    if (emptyCases > 0 && nombreChangement > 0) {
+      // si toujours des cases vides et si on a fait des changements, on refait un passage dans la même fonction
+      resolveSudoku.simpleResolutionSudoku(grille);
+    } if (emptyCases > 0) { 
+      // si on a pas fait de changements dans la grille mais u'il reste des cases vides , on change de méthode
+      resolveSudoku.complexeResolutionSudoku(grille, 0);
     }          
   },
 
@@ -40,33 +41,38 @@ const resolveSudoku = {
    * @param {Number} position de la case testée postion = (numero ligne * 9) + numéro colonne
    * @returns grille résolu
    */
-  solveSudoku(grille, position) { 
+  complexeResolutionSudoku(grille, position) { 
+    //si  on est à la dernière position on a fini le parcours de la grille
     if (position === 9*9) {
       return true;
     }
 
-    const i = Math.floor(position/9);
-    const j = position%9;
+    //calcul du numéro de ligne et du numéro de colonne
+    const numeroLigne = Math.floor(position/9);
+    const numeroColonne = position%9;
 
-    if (grille[i][j] !== 0) {
-      return resolveSudoku.solveSudoku(grille, position+1);
+    //si la case a déjà un nombre saisi on passe au nombre suivant
+    if (grille[numeroLigne][numeroColonne] !== 0) {
+      return resolveSudoku.complexeResolutionSudoku(grille, position+1);
     }
 
+    //coeur de la résolution, pour la position p on teste les chiffres possible et on avance d'une posistion, si ca match on continue sinon on revient en arrière
+    //et on teste un autre chiffre possible ainsi de suite
     for (let k = 1; k < 10; k++) {
-      const testColumn = !resolveSudoku.searchInColumn(grille, j, k);
-      const testLigne = !resolveSudoku.searchInLigne(grille, i, k);
-      const testBox = !resolveSudoku.searchInBox(grille, j, i, k);
-      
-      if (testBox && testColumn && testLigne) {
-        grille[i][j] = k ;
 
-        if (resolveSudoku.solveSudoku(grille, position+1)) {
+      if (!resolveSudoku.searchInBox(grille, numeroColonne, numeroLigne, k) &&
+          !resolveSudoku.searchInColumn(grille, numeroColonne, k) &&
+          !resolveSudoku.searchInLigne(grille, numeroLigne, k) ) {
+
+        grille[numeroLigne][numeroColonne] = k ;
+
+        if (resolveSudoku.complexeResolutionSudoku(grille, position+1)) {
           return true;
         }
       } 
     }
 
-    grille[i][j] = 0;
+    grille[numeroLigne][numeroColonne] = 0;
     return false;
   },
 
@@ -75,16 +81,18 @@ const resolveSudoku = {
    * @param {Array} grille notre grille de sudoku
    * @param {Number} numeroLigne numéro de la ligne 
    * @param {Number} numeroColonne numéro de la colonne
-   * @returns possible[] tableau des valeurs possible
+   * @returns chiffresPossible[] tableau des valeurs possible
    */
   possible(grille, numeroLigne, numeroColonne) {
-    let possible = [];
-    for (let numeroPossible = 1; numeroPossible < 10; numeroPossible++) {
-      if (!(resolveSudoku.searchInColumn(grille, numeroColonne, numeroPossible) || resolveSudoku.searchInBox(grille, numeroColonne, numeroLigne, numeroPossible) || resolveSudoku.searchInLigne(grille, numeroLigne, numeroPossible))) {
-        possible.push(numeroPossible);
+    let chiffresPossible = [];
+    for (let numero = 1; numero < 10; numero++) {
+      if (!(resolveSudoku.searchInColumn(grille, numeroColonne, numero) ||
+            resolveSudoku.searchInBox(grille, numeroColonne, numeroLigne, numero) || 
+            resolveSudoku.searchInLigne(grille, numeroLigne, numero))) {
+        chiffresPossible.push(numero);
       }  
     }
-    return possible;
+    return chiffresPossible;
   },
 
   /**
@@ -95,8 +103,8 @@ const resolveSudoku = {
    * @returns {Boolean} true si nombre trouvé , false si pas trouvé
    */
   searchInLigne(grille, numeroLigne, nombreCherche) {
-    for (let i = 0; i < 9; i++) {
-      if ( grille[numeroLigne][i] === nombreCherche) {
+    for (let colonne = 0; colonne < 9; colonne++) {
+      if ( grille[numeroLigne][colonne] === nombreCherche) {
         return true;
       }
     }
@@ -111,8 +119,8 @@ const resolveSudoku = {
    * @returns {Boolean} true si nombre trouvé , false si pas trouvé
    */
   searchInColumn(grille, numeroColonne, nombreCherche) {
-    for (let i = 0; i < 9; i++) {
-      if ( grille[i][numeroColonne] === nombreCherche) {
+    for (let ligne = 0; ligne < 9; ligne++) {
+      if ( grille[ligne][numeroColonne] === nombreCherche) {
         return true;
       }
     }
@@ -130,13 +138,14 @@ const resolveSudoku = {
   searchInBox(grille, numeroColonne, numeroLigne, nombreCherche) {
     const x = numeroLigne - numeroLigne%3;
     const y = numeroColonne - numeroColonne%3;
-    for (let i = x; i < x + 3  ; i++) {
-      for (let j = y; j < y+3; j++) {
-        if (grille[i][j] === nombreCherche) {
+    for (let ligne = x; ligne < x + 3  ; ligne++) {
+      for (let colonne = y; colonne < y+3; colonne++) {
+        if (grille[ligne][colonne] === nombreCherche) {
           return true;
         }
       } 
     }
     return false;
   },
+  
 };

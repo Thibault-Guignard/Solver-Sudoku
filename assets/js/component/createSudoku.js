@@ -22,16 +22,15 @@ const createSudoku = {
   handleValidateNumber(event) {  
     //on efface les eventuels message d'erreur
     alertMessage.eraseAlertMessage();
-    //on recupere la celle choisie
+
+    //on recupere la cellule choisie
     const cellChoosen = event.currentTarget;
-    //le numero saisie
     const inputNumber = cellChoosen.value;
-    //la position du numéro saisie
     const positionInputNumber = cellChoosen.closest('td').getAttribute('position');
+
     //on vérifie si le chiffre n'est pas déjà présent dans la ligne, la colonne ou la box
     const listErrors = createSudoku.numberIsOk(sudoku.grilleSudoku, inputNumber, positionInputNumber);
     
-    console.log(listErrors);
     if (listErrors.length > 0) {
       alertMessage.createAlertMessage(listErrors, 'warning');
       cellChoosen.value = '';
@@ -91,12 +90,14 @@ const createSudoku = {
         const inputCell = cell.querySelector('input');
         cell.setAttribute('position', i*9+j);
         
+        //on ajoute les evenements sur les inputs de notre grille
         inputCell.addEventListener('keyup',createSudoku.handleValidadteNumberClickEnter);
         inputCell.addEventListener('blur',createSudoku.handleValidateNumber);
         
-        if (j%3===2){cell.className='borderRightCol';}
-        if (i%3===2){cell.className+=' borderBottomCol';}
-        if ((i+j)%2 === 1) {cell.className+=' blue';}
+        //mise en place du CSS
+        if (j%3 === 2){ cell.classList.add('borderRightCol') ;}
+        if (i%3 === 2){ cell.classList.add('borderBottomCol') ;}
+        if ((i+j)%2 === 1) { cell.classList.add('blue') ;}
       }
     }
   },
@@ -108,5 +109,5 @@ const createSudoku = {
   getLine() {
     return ['<tr>', new Array(10).join('<td><input type="text" size="1" maxlength="1"></td>'),'</tr>'].join('');
   },
-
+  
 };

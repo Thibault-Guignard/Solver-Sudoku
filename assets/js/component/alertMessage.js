@@ -18,5 +18,5 @@ const alertMessage = {
       oldMessage.remove();
     });
   },
-
+  
 };

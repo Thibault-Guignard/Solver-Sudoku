@@ -20,12 +20,14 @@ const sudoku = {
     //bouton réinitialiser sudoku
     const buttonReset = document.querySelector('.button__reset');
     buttonReset.addEventListener('click', sudoku.handleClickResetButton);
-
   },
 
+  /**
+   * On traite la grille saisie
+   */
   handleClickResolveSudoku() {
     alertMessage.eraseAlertMessage();
-    resolveSudoku.simplifySudoku(sudoku.grilleSudoku);
+    resolveSudoku.simpleResolutionSudoku(sudoku.grilleSudoku);
     sudoku.remplirTable(sudoku.grilleSudoku);
   },
 
@@ -52,14 +54,15 @@ const sudoku = {
   handleClickResetButton() {
     const emplacementGrille = document.querySelector('.grille__sudoku');
     const tableSudoku = emplacementGrille.querySelector('table');
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        const cell = tableSudoku.rows[i].cells[j];
+    for (let ligne = 0; ligne < 9; ligne++) {
+      for (let colonne = 0; colonne < 9; colonne++) {
+        const cell = tableSudoku.rows[ligne].cells[colonne];
         const inputCell = cell.querySelector('input');
         inputCell.value = '';
-        sudoku.grilleSudoku[i][j] = 0;
+        sudoku.grilleSudoku[ligne][colonne] = 0;
       }
     }
     alertMessage.eraseAlertMessage();
-  }
+  },
+  
 };
