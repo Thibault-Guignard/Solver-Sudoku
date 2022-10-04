@@ -88,8 +88,11 @@ const createSudoku = {
       for (let j = 0; j < 9; j++) {
         const cell = tableSudoku.rows[i].cells[j];
         const inputCell = cell.querySelector('input');
+        const labelCell = cell.querySelector('label');
         cell.setAttribute('position', i*9+j);
         
+        labelCell.setAttribute('id', 'case-' + i*9+j);
+        inputCell.setAttribute('id', 'case-' + i*9+j);
         //on ajoute les evenements sur les inputs de notre grille
         inputCell.addEventListener('keyup',createSudoku.handleValidadteNumberClickEnter);
         inputCell.addEventListener('blur',createSudoku.handleValidateNumber);
@@ -107,7 +110,7 @@ const createSudoku = {
    * @returns 
    */
   getLine() {
-    return ['<tr>', new Array(10).join('<td><input type="text" size="1" maxlength="1"></td>'),'</tr>'].join('');
+    return ['<tr>', new Array(10).join('<td><label></label><input type="text" size="1" maxlength="1"></td>'),'</tr>'].join('');
   },
   
 };

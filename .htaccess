@@ -9,3 +9,7 @@ RewriteRule ^(.*) - [E=BASE_URI:%1]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.html?_url=/$1 [QSA,L]
+
+#https
+RewriteCond %{SERVER_PORT} !=443
+RewriteRule ^(.*)$ https://solver-sudoku.fr [R=301,L]
